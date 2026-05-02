@@ -1,92 +1,185 @@
-# Whisper 語音轉文字
+ 🎙 Whisper 語音轉文字
 
-一個使用 OpenAI Whisper 的桌面語音轉文字工具
+一個使用 OpenAI Whisper 的桌面語音轉文字工具  
 支援本機音檔與 YouTube 網址轉錄，並可輸出 `.txt` 文字檔
-
-----
-
-## ✨ 功能
-
-* 🎧 支援音檔轉文字（mp3 / mp4 / wav 等）
-* 🌐 支援 YouTube 網址轉錄
-* ⚡ 即時顯示轉錄結果
-* 📄 可輸出文字檔
-* 🎛 可選模型與語言
 
 ---
 
-## 🧰 環境需求
+ ✨ 功能
+
+- 🎧 支援音檔轉文字（mp3 / mp4 / wav 等）
+- 🌐 支援 YouTube 網址轉錄
+- ⚡ 即時顯示轉錄結果
+- 📄 可輸出文字檔
+- 🎛 可選模型與語言
+
+---
+
+ 🧰 環境需求
 
 建議使用：
 
-* Python 3.10 或 3.11
-* ffmpeg
-* Node.js（僅 YouTube 需要）
+- Python 3.10 或 3.11
+- ffmpeg
+- Node.js（僅 YouTube 需要）
 
 ---
 
-## 📦 安裝 Python 套件
+ 🚀 快速使用
 
-```bash
+ 1️⃣ 下載專案
+
+在 GitHub 頁面點選：
+
+Code → Download ZIP
+
+解壓縮後進入專案資料夾。
+
+
+ 2️⃣ 安裝 Python 套件(PowerShell / CMD 下 )
+
+bash
 pip install -r requirements.txt
-```
 
----
 
-## ⚠️ 安裝 ffmpeg（必要）
+ 3️⃣ 確認 ffmpeg
 
-本工具需要 ffmpeg 才能運作
-
-👉 安裝後請確認：
-
-```bash
+bash
 ffmpeg -version
-```
 
-若出現版本資訊代表成功
+若出現版本資訊代表成功。
+尚未安裝請參考下方說明。
 
----
+ 4️⃣ 確認 Node.js（YouTube 需要）
 
-## ⚠️ 安裝 Node.js（YouTube 需要）
-
-如果要使用 YouTube 轉錄功能
-
-👉 請確認：
-
-```bash
+bash
 node -v
-```
 
-若出現版本資訊代表成功
+若出現版本資訊代表成功。
+尚未安裝請參考下方說明。
 
----
+ 5️⃣ 執行工具(PowerShell / CMD )
 
-## 🚀 執行
-
-```bash
+bash
 python app.py
-```
 
----
 
-## 📌 使用說明
+ 📌 使用流程
 
-1. 選擇音檔 或 貼上 YouTube 網址
-2. 選擇輸出文字檔位置
-3. 點擊「開始轉錄」
-4. 等待完成即可
+1. 選擇音檔，或貼上 YouTube 網址  
+2. 選擇輸出文字檔位置  
+3. 點擊「開始轉錄」  
+4. 等待完成  
 
----
 
-## ❗ 注意事項
 
-* 第一次使用會下載 Whisper 模型（需等待）
-* 模型越大 → 越準，但越慢
-* 若出現「找不到 ffmpeg」→ 請確認已加入 PATH
-* 若 YouTube 失敗 → 請確認 Node.js
+ ⚙️ ffmpeg 安裝與環境變數設定（Windows）
+ 1️⃣ 下載 ffmpeg
+前往：
 
----
+https://www.gyan.dev/ffmpeg/builds/
 
-## 👨‍💻 作者
+下載：
+ffmpeg-release-full.zip
+
+
+ 2️⃣ 解壓縮
+建議解壓到：
+
+
+C:\ffmpeg(任一磁碟都可以)
+
+完成後應該看到類似：
+C:\ffmpeg\ffmpeg-xxxx\bin\ffmpeg.exe(請記得這個位置)
+
+
+ 3️⃣ 加入 PATH
+1. Windows 搜尋：`環境變數`
+2. 點選：`編輯系統環境變數`
+3. 點選：`環境變數`
+4. 在「系統變數」找到 `Path`
+5. 點選：`編輯`
+6. 點選：`新增`
+7. 貼上你剛剛解壓縮ffmpeg.exe的 ffmpeg bin 路徑，例如：
+
+
+C:\ffmpeg\ffmpeg-xxxx\bin
+
+8. 不斷按「確定」
+
+ 4️⃣ 重新開啟終端機
+關閉 PowerShell / CMD，重新開啟新的終端機。
+
+
+ 5️⃣ 測試 ffmpeg
+
+ffmpeg -version
+
+若顯示版本資訊代表成功。
+
+
+⚙️ Node.js 安裝說明（YouTube 轉錄功能）
+如果只轉錄本機音檔，可以不安裝 Node.js。  
+如果要使用 YouTube 網址轉錄，建議安裝 Node.js。
+
+ 1️⃣ 下載 Node.js
+前往：
+
+https://nodejs.org/
+
+下載並安裝 LTS 版本。
+
+
+ 2️⃣ 測試 Node.js
+安裝完成後，重新開啟 PowerShell / CMD，輸入：
+
+bash
+node -v
+
+若顯示版本號，代表成功。
+
+
+ ❗❗ 常見問題 ❗❗(🛠 無法使用的自我排除方法)
+ 
+ ⚠️找不到 ffmpeg
+通常是以下原因：
+
+- 沒有加入 PATH
+- PATH 加錯層，必須加到 `bin` 資料夾
+- 沒有重新開啟 PowerShell / CMD
+
+
+ ⚠️點兩下 ffmpeg.exe 閃退
+這是正常現象。  
+
+ffmpeg 是命令列工具，不是一般安裝程式。
+請在環境變數手動加入
+
+
+
+ ⚠️找不到 node
+請確認：
+
+- Node.js 已安裝
+- 安裝後有重新開啟 PowerShell / CMD
+- Node.js 已加入 PATH
+  
+
+ ⚠️第一次使用很慢
+
+第一次使用 Whisper 模型時，會下載模型檔案。  
+請保持網路連線並等待完成。
+
+
+ ⚠️YouTube 轉錄失敗
+請先確認
+
+bash
+node -v
+
+若沒有顯示版本資訊，請先安裝 Node.js。  
+如果只使用本機音檔轉錄，可以忽略 Node.js。
+
+ 👨‍💻 作者
 
 GitHub: https://github.com/dw5000tw-33
