@@ -2,8 +2,11 @@
 
 一個使用 OpenAI Whisper 的桌面語音轉文字工具  
 支援本機音檔與 YouTube 網址轉錄，並可輸出 `.txt` 文字檔
-![操作流程](./whisper_usage_flow.gif)
+
+
 📌 30 秒快速了解操作方式
+![操作流程](./whisper_usage_flow.gif)
+
 ---
 
 ## ✨ 功能
