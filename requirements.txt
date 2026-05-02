@@ -1,1 +1,3 @@
-
+customtkinter
+openai-whisper
+yt-dlp
