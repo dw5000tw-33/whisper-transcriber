@@ -1,1 +1,21 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
+dist/
+build/
+*.spec
+
+*.txt
+*.mp3
+*.mp4
+*.m4a
+*.wav
+*.webm
+*.flac
+*.ogg
+
+.env
+venv/
+.venv/
