@@ -118,7 +118,7 @@ C:\ffmpeg
 C:\ffmpeg\ffmpeg-xxxx\bin\ffmpeg.exe
 ```
 
-（請記得這個位置）
+👉 這個 `bin` 路徑稍後會用到（設定 PATH）
 
 ---
 
@@ -158,7 +158,7 @@ ffmpeg -version
 
 ## ⚙️ Node.js 安裝說明（YouTube 轉錄功能）
 
-如果只轉錄本機音檔，可以不安裝 Node.js  
+👉 若只使用本機音檔，可以跳過此步驟 
 如果要使用 YouTube 網址轉錄，建議安裝 Node.js
 
 ---
@@ -225,11 +225,16 @@ node -v
 ```
 
 若沒有顯示版本資訊，請先安裝 Node.js  
-
 如果只使用本機音檔，可以忽略 Node.js
 
 ---
 
 ## 👨‍💻 作者
 
+⭐ 如果這個工具對你有幫助，歡迎給個 Star
 GitHub: https://github.com/dw5000tw-33
+
+## ❤️ 支持開發者
+
+如果這個工具對你有幫助，歡迎之後支持開發者 🙏  
+（斗內功能審核中，之後會開放）
