@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>語音轉文字工具｜Whisper Transcriber</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", Arial, sans-serif;
+      background: linear-gradient(180deg, #07111f 0%, #0b1d35 48%, #07111f 100%);
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .glow {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: rgba(0, 183, 255, 0.28);
+      filter: blur(90px);
+      top: -120px;
+      right: -120px;
+      pointer-events: none;
+    }
+
+    .glow-2 {
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: rgba(43, 98, 255, 0.22);
+      filter: blur(90px);
+      bottom: 120px;
+      left: -140px;
+      pointer-events: none;
+    }
+
+    header {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 22px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #23d5ff, #3967ff);
+      box-shadow: 0 0 28px rgba(35, 213, 255, 0.45);
+    }
+
+    .nav-link {
+      padding: 10px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      min-height: calc(100vh - 82px);
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 44px;
+      align-items: center;
+      padding: 36px 0 80px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #06111f;
+      background: #ffe23b;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 900;
+      transform: rotate(-2deg);
+      box-shadow: 0 10px 30px rgba(255, 226, 59, 0.22);
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 82px);
+      line-height: 0.98;
+      letter-spacing: -2.5px;
+      margin-bottom: 24px;
+    }
+
+    h1 span {
+      color: #27d9ff;
+      text-shadow: 0 0 30px rgba(39, 217, 255, 0.35);
+    }
+
+    .subtitle {
+      font-size: clamp(18px, 2.2vw, 23px);
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 620px;
+      margin-bottom: 30px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 16px;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #27d9ff, #3465ff);
+      box-shadow: 0 18px 36px rgba(39, 132, 255, 0.36);
+    }
+
+    .btn-secondary {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .note {
+      color: rgba(255, 255, 255, 0.64);
+      font-size: 14px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .feature {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.075);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      backdrop-filter: blur(10px);
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .phone-wrap {
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .phone {
+      width: min(360px, 86vw);
+      border-radius: 42px;
+      background: #101827;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.48), 0 0 60px rgba(35, 213, 255, 0.18);
+      transform: rotate(4deg);
+    }
+
+    .screen {
+      min-height: 610px;
+      border-radius: 32px;
+      background: linear-gradient(180deg, #ffffff 0%, #edf5ff 100%);
+      color: #0b1220;
+      padding: 26px 20px;
+      overflow: hidden;
+    }
+
+    .screen-title {
+      font-weight: 900;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .step {
+      margin: 14px 0;
+    }
+
+    .step-label {
+      color: #3465ff;
+      font-weight: 900;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .input-box {
+      background: #ffffff;
+      border: 1px solid #dbe5f1;
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(11, 18, 32, 0.06);
+    }
+
+    .chips {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .chip {
+      text-align: center;
+      padding: 10px 8px;
+      border-radius: 12px;
+      background: #f4f7fb;
+      border: 1px solid #dbe5f1;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .chip.active {
+      color: #ffffff;
+      background: #3465ff;
+      border-color: #3465ff;
+    }
+
+    .convert-btn {
+      margin-top: 24px;
+      width: 100%;
+      border: 0;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #27d9ff, #3465ff);
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 900;
+      padding: 16px;
+      box-shadow: 0 14px 28px rgba(52, 101, 255, 0.28);
+    }
+
+    .result-card {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #07111f;
+      color: #ffffff;
+    }
+
+    .result-card small {
+      color: #27d9ff;
+      font-weight: 900;
+    }
+
+    .section {
+      padding: 70px 0;
+    }
+
+    .section h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      margin-bottom: 18px;
+      letter-spacing: -1px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.075);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 15px;
+    }
+
+    footer {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 60px;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 34px;
+        padding-top: 24px;
+      }
+
+      .features,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .phone {
+        transform: rotate(0deg);
+      }
+
+      .screen {
+        min-height: 560px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="glow"></div>
+    <div class="glow-2"></div>
+
+    <header>
+      <a class="logo" href="#">
+        <span class="logo-icon">🎙️</span>
+        <span>Whisper Transcriber</span>
+      </a>
+      <a class="nav-link" href="https://github.com/dw5000tw-33/whisper-transcriber" target="_blank" rel="noopener">GitHub 下載</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="badge">免費使用・語音轉文字</div>
+          <h1>錄音秒變<br><span>文字</span></h1>
+          <p class="subtitle">
+            支援錄音檔與網路串流音檔，選好模型與語言後，一鍵轉成文字。會議紀錄、影片字幕、訪談整理、海報文案都能更快完成。
+          </p>
+
+          <div class="cta-row">
+            <a class="btn btn-primary" href="https://github.com/dw5000tw-33/whisper-transcriber" target="_blank" rel="noopener">下載工具</a>
+            <a class="btn btn-secondary" href="#how">查看使用方式</a>
+          </div>
+
+          <p class="note">由珊珊整理製作，歡迎加入官方 Line 交流使用問題。</p>
+
+          <div class="features">
+            <div class="feature">
+              <strong>支援音檔</strong>
+              <p>錄音檔、影片音訊、網路音檔網址。</p>
+            </div>
+            <div class="feature">
+              <strong>多種模型</strong>
+              <p>tiny、base、small、medium、large。</p>
+            </div>
+            <div class="feature">
+              <strong>多語言</strong>
+              <p>支援中文、英文、日文、韓文與自動偵測。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="screen">
+              <div class="screen-title">語音轉文字工具</div>
+
+              <div class="step">
+                <div class="step-label">1 選擇音檔</div>
+                <div class="input-box">
+                  <span>錄音檔.m4a</span>
+                  <span>✅</span>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-label">2 選擇模型</div>
+                <div class="chips">
+                  <div class="chip">tiny</div>
+                  <div class="chip">base</div>
+                  <div class="chip active">small</div>
+                  <div class="chip">medium</div>
+                  <div class="chip">large</div>
+                  <div class="chip">auto</div>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-label">3 選擇語言</div>
+                <div class="input-box">
+                  <span>自動偵測</span>
+                  <span>⌄</span>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-label">4 輸出位置</div>
+                <div class="input-box">
+                  <span>C:/Users/Output</span>
+                  <span>📁</span>
+                </div>
+              </div>
+
+              <button class="convert-btn">開始轉檔</button>
+
+              <div class="result-card">
+                <small>完成</small>
+                <p>文字已輸出，可直接丟給 AI 做摘要、字幕、簡報或海報文案。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="how">
+        <h2>怎麼使用？</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>1. 開啟程式</h3>
+            <p>下載專案後執行 Python 程式，打開本機操作頁面。</p>
+          </div>
+          <div class="card">
+            <h3>2. 選擇音檔</h3>
+            <p>選擇本機錄音檔，或貼上網路音檔網址，再設定輸出位置。</p>
+          </div>
+          <div class="card">
+            <h3>3. 一鍵轉文字</h3>
+            <p>依照音檔狀況選擇模型，按下轉檔，等待完成即可。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>適合誰使用？</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>做短影音</h3>
+            <p>快速把錄音變成字幕稿，剪片更省時間。</p>
+          </div>
+          <div class="card">
+            <h3>會議紀錄</h3>
+            <p>把會議錄音轉成文字，再交給 AI 摘要重點。</p>
+          </div>
+          <div class="card">
+            <h3>內容創作者</h3>
+            <p>訪談、教學、講稿、Podcast 都能更快整理。</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Whisper Transcriber｜免費語音轉文字工具</p>
+      <p>下載連結：https://github.com/dw5000tw-33/whisper-transcriber</p>
+    </footer>
+  </div>
+</body>
+</html>
