@@ -20,7 +20,7 @@
 ### 安裝前準備
 
 - Windows 10 或 Windows 11
-- Python 3.10 或 3.11（安裝時勾選 **Add Python to PATH**）
+- Python 3.10 至 3.14（安裝時勾選 **Add Python to PATH**）
 - FFmpeg（本機音檔與 YouTube 轉錄都需要）
 - Node.js LTS（只有使用 YouTube 網址時需要）
 
@@ -28,7 +28,7 @@
 
 1. 在本頁按 **Code → Download ZIP**，下載並解壓縮專案。
 2. 雙擊資料夾中的 `install_windows.cmd`。
-3. 安裝器會建立專案專用的 `.venv`、安裝 `requirements.txt` 中的套件，並建立桌面與開始功能表捷徑。
+3. 安裝器會尋找 Python 3.10 至 3.14；找不到時可選擇以 WinGet 安裝 Python 3.11，或開啟 Python 官方下載頁。安裝 Python 後重新執行安裝器，它會建立專案專用的 `.venv`、安裝 `requirements.txt` 中的套件，並建立桌面與開始功能表捷徑。
 4. 安裝完成後，雙擊桌面的 **Whisper Transcriber** 捷徑，或執行 `START_WHISPER.cmd` 開啟原有操作面板。
 
 安裝時需要網路下載 Python 套件，可能需要幾分鐘。若 Windows 顯示安全提示，請先確認檔案是從本專案下載後再執行。批次安裝檔只使用 ASCII 文字，避免繁體中文被 CMD 用錯誤編碼讀取。
@@ -64,7 +64,7 @@ py -3.11 -m venv .venv
 .venv\Scripts\python.exe app.py
 ```
 
-若電腦安裝的是 Python 3.10，將第一行的 `-3.11` 改成 `-3.10`。手動方式也需要先安裝 FFmpeg；YouTube 網址另需 Node.js。
+手動方式的第一行以 Python 3.11 建立環境；若要指定其他已安裝版本，將 `-3.11` 換成對應版本，例如 `-3.12`。手動方式也需要先安裝 FFmpeg；YouTube 網址另需 Node.js。
 
 ## 操作方式
 
@@ -79,7 +79,7 @@ py -3.11 -m venv .venv
 
 ### 安裝器視窗很快關閉，或顯示 Python 未找到
 
-請安裝 Python 3.10 或 3.11，安裝時勾選 **Add Python to PATH**，再重新執行 `install_windows.cmd`。也可以用 CMD 手動安裝。
+請安裝 Python 3.10 至 3.14，安裝時勾選 **Add Python to PATH**，再重新執行 `install_windows.cmd`。也可以用 CMD 手動安裝。
 
 ### 安裝套件失敗
 
