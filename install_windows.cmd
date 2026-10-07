@@ -17,21 +17,39 @@ if not exist "requirements.txt" (
 set "PY_CMD="
 where py >nul 2>nul
 if not errorlevel 1 (
-  py -3.11 -c "import sys" >nul 2>nul
-  if not errorlevel 1 set "PY_CMD=py -3.11"
-  if not defined PY_CMD (
-    py -3.10 -c "import sys" >nul 2>nul
-    if not errorlevel 1 set "PY_CMD=py -3.10"
+  for %%V in (3.14 3.13 3.12 3.11 3.10) do (
+    if not defined PY_CMD (
+      py -%%V -c "import sys" >nul 2>nul
+      if not errorlevel 1 set "PY_CMD=py -%%V"
+    )
   )
 )
 if not defined PY_CMD (
-  python -c "import sys; raise SystemExit(0 if sys.version_info[:2] in ((3,10),(3,11)) else 1)" >nul 2>nul
+  python -c "import sys; raise SystemExit(0 if (3,10) <= sys.version_info[:2] <= (3,14) else 1)" >nul 2>nul
   if not errorlevel 1 set "PY_CMD=python"
 )
 
 if not defined PY_CMD (
-  echo ERROR: Python 3.10 or 3.11 was not found.
-  echo Install Python 3.10 or 3.11, select Add Python to PATH, then run this file again.
+  where winget >nul 2>nul
+  if not errorlevel 1 (
+    echo No supported Python was found.
+    choice /C YN /N /M "Install Python 3.11 with Windows Package Manager now? [Y/N] "
+    if errorlevel 2 goto PYTHON_HELP
+    winget install --id Python.Python.3.11 --exact
+    if errorlevel 1 (
+      echo Python installation did not finish. You can install Python manually.
+      start "" "https://www.python.org/downloads/windows/"
+      pause
+      exit /b 1
+    )
+    echo Python installation finished. Close this window and run install_windows.cmd again.
+    pause
+    exit /b 0
+  )
+  :PYTHON_HELP
+  echo No supported Python was found. Opening the official Python download page.
+  start "" "https://www.python.org/downloads/windows/"
+  echo Install Python 3.10 to 3.14, then run install_windows.cmd again.
   pause
   exit /b 1
 )
