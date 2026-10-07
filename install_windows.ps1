@@ -113,6 +113,14 @@ sh.Run Chr(34) & appDir & "\.venv\Scripts\pythonw.exe" & Chr(34) & " " & Chr(34)
     $shortcut.WorkingDirectory = $appDir
     $shortcut.Description = "33 Works Whisper 語音轉文字"
     $shortcut.Save()
+    $programsDir = Join-Path $shell.SpecialFolders("Programs") "33 Works"
+    New-Item -ItemType Directory -Path $programsDir -Force | Out-Null
+    $startMenuShortcut = $shell.CreateShortcut((Join-Path $programsDir "Whisper 語音轉文字.lnk"))
+    $startMenuShortcut.TargetPath = $shortcut.TargetPath
+    $startMenuShortcut.Arguments = $shortcut.Arguments
+    $startMenuShortcut.WorkingDirectory = $appDir
+    $startMenuShortcut.Description = "33 Works Whisper 語音轉文字"
+    $startMenuShortcut.Save()
 
     Write-Step "Installation complete"
     Write-Host "The desktop shortcut is ready. The first transcription downloads the selected Whisper model."
