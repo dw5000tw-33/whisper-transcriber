@@ -57,6 +57,7 @@ if not defined PY_CMD (
   echo Python installation finished. Close this window and run install_windows.cmd again.
   pause
   exit /b 0
+)
 
 echo Creating the project virtual environment...
 if not exist ".venv\Scripts\python.exe" (
