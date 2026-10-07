@@ -83,7 +83,7 @@ py -3.11 -m venv .venv
 
 ### 安裝套件失敗
 
-確認網路正常、Python 版本是 3.10 或 3.11，再重新執行安裝器。安裝器會沿用已建立的 `.venv`，不會修改 `app.py`。
+確認網路正常、Python 版本是 3.10 至 3.14，再重新執行安裝器。安裝器會沿用已建立的 `.venv`，不會修改 `app.py`。
 
 ### 程式提示找不到 FFmpeg
 
@@ -91,7 +91,7 @@ py -3.11 -m venv .venv
 
 ### YouTube 轉錄失敗
 
-確認已安裝 Node.js LTS，並在新的 CMD 執行 `node -v)。YouTube 網站端的變更也可能影響下載功能。
+確認已安裝 Node.js LTS，並在新的 CMD 執行 `node -v`。YouTube 網站端的變更也可能影響下載功能。
 
 ### 第一次轉錄等待較久
 
