@@ -20,22 +20,22 @@
 ### 安裝前準備
 
 - Windows 10 或 Windows 11
-- Python 3.10 至 3.14（安裝時勾選 **Add Python to PATH**）
-- FFmpeg（本機音檔與 YouTube 轉錄都需要）
-- Node.js LTS（只有使用 YouTube 網址時需要）
+- Python 3.10 至 3.14（安裝器會自動偵測；缺少時可透過 WinGet 安裝 Python 3.11）
+- WinGet（Windows Package Manager；缺少時安裝器會開啟官方安裝頁）
+- Node.js LTS（只有使用 YouTube 網址時需要，安裝時可選擇是否安裝）
 
 ### 安裝步驟
 
 1. 在本頁按 **Code → Download ZIP**，下載並解壓縮專案。
 2. 雙擊資料夾中的 `install_windows.cmd`。
-3. 安裝器會尋找 Python 3.10 至 3.14；找不到時可選擇以 WinGet 安裝 Python 3.11，或開啟 Python 官方下載頁。安裝 Python 後重新執行安裝器，它會建立專案專用的 `.venv`、安裝 `requirements.txt` 中的套件，並建立桌面與開始功能表捷徑。
+3. 安裝器會先檢查 Python 與 FFmpeg；已安裝的會略過，缺少的會透過 WinGet 安裝，再於同一次流程中重新檢查、建立 `.venv`、安裝 Python 套件並建立捷徑。YouTube 網址需要 Node.js，安裝時會詢問是否安裝。若電腦沒有 WinGet，安裝器會開啟官方下載頁；手動完成前置安裝後，再執行一次安裝器。
 4. 安裝完成後，雙擊桌面的 **Whisper Transcriber** 捷徑，或執行 `START_WHISPER.cmd` 開啟原有操作面板。
 
 安裝時需要網路下載 Python 套件，可能需要幾分鐘。若 Windows 顯示安全提示，請先確認檔案是從本專案下載後再執行。批次安裝檔只使用 ASCII 文字，避免繁體中文被 CMD 用錯誤編碼讀取。
 
 ### FFmpeg 設定
 
-FFmpeg 是音訊解碼所需工具，安裝器會檢查它是否已可在命令列使用，但不會替你安裝。請依照 [FFmpeg Windows builds](https://www.gyan.dev/ffmpeg/builds/) 下載並安裝，然後在新的 CMD 視窗輸入：
+FFmpeg 是音訊解碼所需工具，一般情況下安裝器會透過 WinGet 安裝它；若沒有 WinGet，才需要手動安裝。請依照 [FFmpeg Windows builds](https://www.gyan.dev/ffmpeg/builds/) 下載並安裝，然後在新的 CMD 視窗輸入：
 
 ```bat
 ffmpeg -version
@@ -101,6 +101,7 @@ py -3.11 -m venv .venv
 
 - `app.py`：原有 Whisper 桌面操作面板
 - `install_windows.cmd`：Windows 依賴安裝與捷徑建立
+- `install_windows.ps1`：偵測與安裝 Python、FFmpeg，並完成環境設定
 - `START_WHISPER.cmd`：啟動原有操作面板
 - `create_shortcut.ps1`：建立桌面與開始功能表捷徑
 - `requirements.txt`：Python 套件清單
