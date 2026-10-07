@@ -1,6 +1,6 @@
 # 🎙 Whisper 語音轉文字
 
-> **Windows 安裝包 v1.0.0**：已在 Windows 實際完成一鍵安裝，安裝後可直接開啟 Whisper 面板。正式安裝包請到 [GitHub Releases](https://github.com/dw5000tw-33/whisper-transcriber/releases/latest) 下載。首次使用仍需網路下載 Python 套件與所選 Whisper 模型。
+> **Windows 一鍵安裝已實機測試通過**：使用者回報安裝器一次完成安裝，並直接開啟 Whisper 面板。下載專案 ZIP 後解壓縮，即可執行安裝器。首次使用仍需網路下載 Python 套件與所選 Whisper 模型。
 
 使用 OpenAI Whisper 在自己的 Windows 電腦上將音訊轉成文字，支援本機音檔與 YouTube 網址，並可輸出 UTF-8 的 `.txt` 檔。
 
@@ -28,7 +28,7 @@
 
 ### 安裝步驟
 
-1. 前往 [GitHub Releases](https://github.com/dw5000tw-33/whisper-transcriber/releases/latest)，下載 `Whisper-Transcriber-Windows-v1.0.0.zip` 並解壓縮。
+1. 在本頁按 **Code → Download ZIP**，下載並解壓縮專案。
 2. 雙擊資料夾中的 `install_windows.cmd`。
 3. 安裝器會先檢查 Python 與 FFmpeg；已安裝的會略過，缺少的會透過 WinGet 安裝，再於同一次流程中重新檢查、建立 `.venv`、安裝 Python 套件並建立捷徑。YouTube 網址需要 Node.js，安裝時會詢問是否安裝。若電腦沒有 WinGet，安裝器會開啟官方下載頁；手動完成前置安裝後，再執行一次安裝器。
 4. 安裝完成後，雙擊桌面的 **Whisper Transcriber** 捷徑，或執行 `START_WHISPER.cmd` 開啟原有操作面板。
