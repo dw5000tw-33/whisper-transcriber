@@ -12,6 +12,7 @@ AppPublisher={#MyAppPublisher}
 DefaultDirName={localappdata}\Programs\33Works\WhisperTranscriber
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
+ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 SourceDir=..
 OutputDir=windows-installer\dist
@@ -30,7 +31,7 @@ Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubd
 
 
 [Run]
-Filename: "{app}\install_windows.cmd"; Description: "安裝執行環境並建立桌面捷徑"; Flags: postinstall waituntilterminated skipifsilent
+Filename: "{app}\install_windows.cmd"; Description: "安裝執行環境並建立桌面捷徑"; Flags: waituntilterminated
 
 [UninstallDelete]
 Type: filesandordirs; Name: "{app}\.venv"
