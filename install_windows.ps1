@@ -48,7 +48,7 @@ function Get-PythonExecutable {
 function Install-WingetPackage([string]$PackageId) {
     $winget = Get-Command winget.exe -ErrorAction SilentlyContinue
     if (-not $winget) {
-        return $false
+        throw "WinGet is not available."
     }
     Write-Host "Installing $PackageId. Follow any Windows or package agreement prompts."
     & $winget.Source install --id $PackageId --exact --source winget
@@ -56,7 +56,6 @@ function Install-WingetPackage([string]$PackageId) {
         throw "WinGet could not install $PackageId. Read the message above and try again."
     }
     Refresh-Path
-    return $true
 }
 
 try {
@@ -73,10 +72,11 @@ try {
     $pythonExe = Get-PythonExecutable
     if (-not $pythonExe) {
         Write-Host "Supported Python was not found. Python 3.11 will be installed."
-        if (-not (Install-WingetPackage "Python.Python.3.11")) {
+        if (-not (Get-Command winget.exe -ErrorAction SilentlyContinue)) {
             Start-Process "https://www.python.org/downloads/windows/"
             throw "WinGet is not available. Install Python 3.10 to 3.14 from the page opened, then run this installer again."
         }
+        Install-WingetPackage "Python.Python.3.11"
         $pythonExe = Get-PythonExecutable
         if (-not $pythonExe) {
             throw "Python installation finished, but Windows has not registered it yet. Close this window, open a new one, and run install_windows.cmd again."
@@ -87,10 +87,11 @@ try {
     Refresh-Path
     if (-not (Get-Command ffmpeg.exe -ErrorAction SilentlyContinue)) {
         Write-Host "FFmpeg was not found. Installing it now."
-        if (-not (Install-WingetPackage "Gyan.FFmpeg.Shared")) {
+        if (-not (Get-Command winget.exe -ErrorAction SilentlyContinue)) {
             Start-Process "https://ffmpeg.org/download.html"
             throw "WinGet is not available. Install an FFmpeg Windows build, add its bin folder to PATH, then run this installer again."
         }
+        Install-WingetPackage "Gyan.FFmpeg.Shared"
         if (-not (Get-Command ffmpeg.exe -ErrorAction SilentlyContinue)) {
             $wingetLinks = Join-Path $env:LOCALAPPDATA "Microsoft\WinGet\Links"
             if (Test-Path -LiteralPath (Join-Path $wingetLinks "ffmpeg.exe")) {
@@ -107,15 +108,12 @@ try {
         $answer = Read-Host "Install Node.js LTS for YouTube URL support? Enter Y to install, or press Enter to skip"
         if ($answer -match "^(Y|YES)$") {
             try {
-                if (Install-WingetPackage "OpenJS.NodeJS.LTS") {
-                    if (-not (Get-Command node.exe -ErrorAction SilentlyContinue)) {
-                        Write-Host "Node.js was installed. Open a new terminal later if YouTube support is not detected."
-                    }
-                } else {
-                    Start-Process "https://nodejs.org/"
-                    Write-Host "WinGet is not available. Install Node.js LTS from the page opened. You can skip this for local audio files."
+                Install-WingetPackage "OpenJS.NodeJS.LTS"
+                if (-not (Get-Command node.exe -ErrorAction SilentlyContinue)) {
+                    Write-Host "Node.js was installed. Open a new terminal later if YouTube support is not detected."
                 }
             } catch {
+                Start-Process "https://nodejs.org/"
                 Write-Host "Node.js setup was skipped. You can install it later for YouTube URL support."
             }
         }
