@@ -14,30 +14,31 @@
 
 ## Windows 安裝（建議）
 
-### 一鍵圖形安裝
+### 一鍵安裝程式（Setup.exe）
 
-1. 在 GitHub 專案頁下載 ZIP，按右鍵選「全部解壓縮」。
-2. 開啟解壓後的資料夾，執行 `install_windows.cmd`。
-3. 安裝程式會檢查並準備 Python 3.11、FFmpeg 和 Node.js LTS，再安裝程式套件。
+1. 從 GitHub Actions 的「Build Windows installer」工作流程下載 Artifact。
+2. 解壓 Artifact，執行 `33Works-Whisper-Setup.exe`。
+3. 安裝程式會放入應用程式檔案，並準備 Python 3.11、FFmpeg、Node.js LTS 及 Python 套件。
 4. 完成後，從桌面或開始選單開啟「33 Works Whisper 語音轉文字」。
 
-安裝需要網路連線和 Windows Package Manager（winget）。如果電腦找不到 winget，請先從 Microsoft Store 安裝或更新「App Installer」，再重新執行安裝檔。安裝套件會透過 winget 安裝到 Windows；Whisper 模型則在第一次轉錄時下載。
+安裝需要網路連線和 Windows Package Manager（winget）。如果電腦找不到 winget，請先從 Microsoft Store 安裝或更新「App Installer」，再重新執行安裝程式。第一次轉錄時，Whisper 還會下載所選模型。
+
+目前安裝程式尚未使用程式碼簽章。Windows 可能顯示發行者或 SmartScreen 警告；簽章需要另外申請與設定，不能保證警告一定會消失。
 
 ### CMD 安裝
 
-在已解壓縮的專案資料夾開啟 CMD，執行：
+若使用 GitHub 專案 ZIP：
+
+1. 下載 ZIP 並按右鍵選「全部解壓縮」。
+2. 開啟解壓後的專案資料夾，雙擊 `install_windows.cmd`。
+
+也可以在 CMD 切換到專案資料夾後執行：
 
 ```bat
 install_windows.cmd
 ```
 
-也可以在 CMD 先切換到專案資料夾，再執行相同指令。這和雙擊安裝入口使用同一套檢查及安裝流程。
-
-### 圖形安裝檔（Setup.exe）
-
-專案提供 Inno Setup 安裝檔定義，GitHub Actions 可在 Windows 環境產生 `33Works-Whisper-Setup.exe`。推送 `v` 開頭的版本標籤，或手動執行「Build Windows installer」工作流程後，可從該次工作流程的 Artifact 下載安裝檔。
-
-目前產生的安裝檔尚未使用程式碼簽章。Windows 可能顯示發行者或 SmartScreen 警告；簽章需要另外申請與設定，不能假設安裝警告一定會消失。
+兩種方式都會使用相同安裝腳本，安裝完成後建立桌面和開始選單捷徑。
 
 ## 手動安裝（替代方式）
 
