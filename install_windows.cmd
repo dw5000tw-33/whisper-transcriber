@@ -31,28 +31,32 @@ if not defined PY_CMD (
 
 if not defined PY_CMD (
   where winget >nul 2>nul
-  if not errorlevel 1 (
-    echo No supported Python was found.
-    choice /C YN /N /M "Install Python 3.11 with Windows Package Manager now? [Y/N] "
-    if errorlevel 2 goto PYTHON_HELP
-    winget install --id Python.Python.3.11 --exact
-    if errorlevel 1 (
-      echo Python installation did not finish. You can install Python manually.
-      start "" "https://www.python.org/downloads/windows/"
-      pause
-      exit /b 1
-    )
-    echo Python installation finished. Close this window and run install_windows.cmd again.
+  if errorlevel 1 (
+    echo No supported Python was found. Opening the official Python download page.
+    start "" "https://www.python.org/downloads/windows/"
+    echo Install Python 3.10 to 3.14, then run install_windows.cmd again.
     pause
-    exit /b 0
+    exit /b 1
   )
-  :PYTHON_HELP
-  echo No supported Python was found. Opening the official Python download page.
-  start "" "https://www.python.org/downloads/windows/"
-  echo Install Python 3.10 to 3.14, then run install_windows.cmd again.
+  echo No supported Python was found.
+  choice /C YN /N /M "Install Python 3.11 with Windows Package Manager now? [Y/N] "
+  if errorlevel 2 (
+    echo Opening the official Python download page.
+    start "" "https://www.python.org/downloads/windows/"
+    echo Install Python 3.10 to 3.14, then run install_windows.cmd again.
+    pause
+    exit /b 1
+  )
+  winget install --id Python.Python.3.11 --exact
+  if errorlevel 1 (
+    echo Python installation did not finish. You can install Python manually.
+    start "" "https://www.python.org/downloads/windows/"
+    pause
+    exit /b 1
+  )
+  echo Python installation finished. Close this window and run install_windows.cmd again.
   pause
-  exit /b 1
-)
+  exit /b 0
 
 echo Creating the project virtual environment...
 if not exist ".venv\Scripts\python.exe" (
