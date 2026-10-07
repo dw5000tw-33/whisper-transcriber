@@ -35,3 +35,6 @@ Filename: "{app}\install_windows.cmd"; Description: "安裝執行環境並建立
 
 [UninstallDelete]
 Type: filesandordirs; Name: "{app}\.venv"
+Type: files; Name: "{app}\launch.vbs"
+Type: files; Name: "{autodesktop}\33 Works Whisper 語音轉文字.lnk"
+Type: filesandordirs; Name: "{autoprograms}\33 Works"
