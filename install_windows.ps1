@@ -97,8 +97,19 @@ try {
     $shell = New-Object -ComObject WScript.Shell
     $shortcutPath = Join-Path ([Environment]::GetFolderPath("Desktop")) "33 Works Whisper 語音轉文字.lnk"
     $shortcut = $shell.CreateShortcut($shortcutPath)
-    $shortcut.TargetPath = Join-Path $appDir ".venv\Scripts\pythonw.exe"
-    $shortcut.Arguments = '"' + (Join-Path $appDir "app.py") + '"'
+    $appDirForVbs = $appDir.Replace('"', '""')
+    $vbsPath = Join-Path $appDir "launch.vbs"
+    $vbsContent = @'
+Set sh = CreateObject("WScript.Shell")
+Set env = sh.Environment("PROCESS")
+env("PATH") = sh.Environment("MACHINE")("PATH") & ";" & sh.Environment("USER")("PATH") & ";" & sh.ExpandEnvironmentStrings("%LOCALAPPDATA%") & "\Microsoft\WinGet\Links"
+appDir = "__APP_DIR__"
+sh.CurrentDirectory = appDir
+sh.Run Chr(34) & appDir & "\.venv\Scripts\pythonw.exe" & Chr(34) & " " & Chr(34) & appDir & "\app.py" & Chr(34), 0, False
+'@
+    Set-Content -Path $vbsPath -Value ($vbsContent.Replace("__APP_DIR__", $appDirForVbs)) -Encoding Ascii
+    $shortcut.TargetPath = Join-Path $env:SystemRoot "System32\wscript.exe"
+    $shortcut.Arguments = '"' + $vbsPath + '"'
     $shortcut.WorkingDirectory = $appDir
     $shortcut.Description = "33 Works Whisper 語音轉文字"
     $shortcut.Save()
