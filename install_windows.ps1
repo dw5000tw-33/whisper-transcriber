@@ -98,7 +98,11 @@ try {
                 $env:Path = "$wingetLinks;$env:Path"
                 $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
                 if (($userPath -split ";") -notcontains $wingetLinks) {
-                    [Environment]::SetEnvironmentVariable("Path", "$userPath;$wingetLinks", "User")
+                    if ([string]::IsNullOrWhiteSpace($userPath)) {
+                        [Environment]::SetEnvironmentVariable("Path", $wingetLinks, "User")
+                    } else {
+                        [Environment]::SetEnvironmentVariable("Path", "$userPath;$wingetLinks", "User")
+                    }
                 }
             }
         }
