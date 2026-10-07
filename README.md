@@ -28,7 +28,7 @@
 
 ### 安裝步驟
 
-1. 前往 [GitHub Release v1.0.0](https://github.com/dw5000tw-33/whisper-transcriber/releases/tag/v1.0.0)，下載 `Whisper-Transcriber-One-Click-Test-v5.zip` 並解壓縮。
+1. 前往 [GitHub Release v1.0.0](https://github.com/dw5000tw-33/whisper-transcriber/releases/tag/v1.0.0)，下載 Release 頁面中的 Windows ZIP 安裝包並解壓縮。
 2. 雙擊資料夾中的 `install_windows.cmd`。
 3. 安裝器會先檢查 Python 與 FFmpeg；已安裝的會略過，缺少的會透過 WinGet 安裝，再於同一次流程中重新檢查、建立 `.venv`、安裝 Python 套件並建立捷徑。YouTube 網址需要 Node.js，安裝時會詢問是否安裝。若電腦沒有 WinGet，安裝器會開啟官方下載頁；手動完成前置安裝後，再執行一次安裝器。
 4. 安裝完成後，雙擊桌面的 **Whisper Transcriber** 捷徑，或執行 `START_WHISPER.cmd` 開啟原有操作面板。
