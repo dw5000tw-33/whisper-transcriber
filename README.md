@@ -1,244 +1,83 @@
 # 🎙 Whisper 語音轉文字
 
-一個使用 OpenAI Whisper 的桌面語音轉文字工具  
-支援本機音檔與 YouTube 網址轉錄，並可輸出 `.txt` 文字檔
+33 Works 的桌面語音轉文字工具，使用 OpenAI Whisper，在使用者自己的 Windows 電腦處理音檔。
 
+支援本機音檔與 YouTube 網址轉錄，並可輸出 `.txt` 文字檔。
 
-📌 30 秒快速了解操作方式
-![操作流程](./whisper_usage_flow.gif)
+## 功能
 
----
+- 支援音訊／影片檔（mp3、m4a、wav、mp4 等）
+- 支援 YouTube 網址轉錄
+- 即時顯示轉錄結果
+- 可選擇 Whisper 模型與語言
+- 可選擇文字檔輸出位置
 
-## ✨ 功能
+## Windows 安裝（建議）
 
-- 🎧 支援音檔轉文字（mp3 / mp4 / wav 等）
-- 🌐 支援 YouTube 網址轉錄
-- ⚡ 即時顯示轉錄結果
-- 📄 可輸出文字檔
-- 🎛 可選模型與語言
+### 一鍵安裝程式（Setup.exe）
 
----
+1. 從 GitHub Actions 的「Build Windows installer」工作流程下載 Artifact。
+2. 解壓 Artifact，執行 `33Works-Whisper-Setup.exe`。
+3. 安裝程式會放入應用程式檔案，並準備 Python 3.11、FFmpeg、Node.js LTS 及 Python 套件。
+4. 完成後，從桌面或開始選單開啟「33 Works Whisper 語音轉文字」。
 
-## 🧰 環境需求
+安裝需要網路連線和 Windows Package Manager（winget）。如果電腦找不到 winget，請先從 Microsoft Store 安裝或更新「App Installer」，再重新執行安裝程式。第一次轉錄時，Whisper 還會下載所選模型。
 
-建議使用：
+目前安裝程式尚未使用程式碼簽章。Windows 可能顯示發行者或 SmartScreen 警告；簽章需要另外申請與設定，不能保證警告一定會消失。
 
-- Python 3.10 或 3.11
-- ffmpeg
-- Node.js（僅 YouTube 需要）
+### CMD 安裝
 
----
+若使用 GitHub 專案 ZIP：
 
-## 🚀 快速使用
+1. 下載 ZIP 並按右鍵選「全部解壓縮」。
+2. 開啟解壓後的專案資料夾，雙擊 `install_windows.cmd`。
 
-### 1️⃣ 下載專案
+也可以在 CMD 切換到專案資料夾後執行：
 
-在 GitHub 頁面點選：
-
-```
-Code → Download ZIP
-```
-
-解壓縮後進入專案資料夾。
-
----
-
-### 2️⃣ 安裝 Python 套件（PowerShell / CMD）
-
-```bash
-pip install -r requirements.txt
+```bat
+install_windows.cmd
 ```
 
----
+兩種方式都會使用相同安裝腳本，安裝完成後建立桌面和開始選單捷徑。
 
-### 3️⃣ 確認 ffmpeg
+## 手動安裝（替代方式）
 
-```bash
-ffmpeg -version
+需要自行處理環境時，使用 Python 3.11、FFmpeg 和 Node.js LTS：
+
+```bat
+py -3.11 -m venv .venv
+.venv\Scripts\python.exe -m pip install --upgrade pip
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe app.py
 ```
 
-若出現版本資訊代表成功  
-尚未安裝請參考下方說明
+FFmpeg 是本機音檔轉錄所需；Node.js 是 YouTube 網址轉錄所需。完成安裝後，若要建立桌面捷徑，建議使用 `install_windows.cmd`。
 
----
+## 使用流程
 
-### 4️⃣ 確認 Node.js（YouTube 需要）
+1. 選擇音檔或貼上 YouTube 網址。
+2. 選擇輸出文字檔位置。
+3. 選擇模型與語言。
+4. 點擊「開始轉錄」並等待完成。
 
-```bash
-node -v
-```
+選擇本機音檔後，程式預設將 `.txt` 輸出位置放在音檔所在資料夾；使用者仍可在面板中自行更改。
 
-若出現版本資訊代表成功  
-尚未安裝請參考下方說明
+## 常見狀況
 
----
+- **安裝時下載時間較長：** Whisper 使用 PyTorch 等套件，第一次安裝會下載執行所需套件。
+- **第一次轉錄較慢：** 第一次使用所選 Whisper 模型時會下載模型檔。
+- **找不到 winget：** 安裝或更新 Microsoft Store 的 App Installer，再執行安裝檔。
+- **YouTube 轉錄失敗：** 確認 Node.js LTS 已安裝，並重新開啟應用程式。
+- **轉錄速度較慢：** 模型越大通常越耗用電腦資源；可先改用較小模型。
 
-### 5️⃣ 執行工具（PowerShell / CMD）
+## 開發者
 
-```bash
-python app.py
-```
+GitHub：<https://github.com/dw5000tw-33>
 
----
+如果這個工具對你有幫助，歡迎自由支持後續開發與維護。支持完全自願，不影響工具的免費使用。
 
-## 📌 使用流程
+[透過綠界支持 33 Works](https://p.ecpay.com.tw/304E8B5)
 
-1. 選擇音檔，或貼上 YouTube 網址  
-2. 選擇輸出文字檔位置  
-3. 點擊「開始轉錄」  
-4. 等待完成  
+## 授權
 
----
-
-## ⚙️ ffmpeg 安裝與環境變數設定（Windows）
-
-### 1️⃣ 下載 ffmpeg
-
-https://www.gyan.dev/ffmpeg/builds/
-
-下載：
-
-```
-ffmpeg-release-full.zip
-```
-
----
-
-### 2️⃣ 解壓縮
-
-建議解壓到：
-
-```
-C:\ffmpeg
-```
-
-完成後應該看到類似：
-
-```
-C:\ffmpeg\ffmpeg-xxxx\bin\ffmpeg.exe
-```
-
-👉 這個 `bin` 路徑稍後會用到（設定 PATH）
-
----
-
-### 3️⃣ 加入 PATH
-
-1. Windows 搜尋：環境變數  
-2. 點選：編輯系統環境變數  
-3. 點選：環境變數  
-4. 在「系統變數」找到 Path  
-5. 點選：編輯  
-6. 點選：新增  
-7. 貼上：
-
-```
-C:\ffmpeg\ffmpeg-xxxx\bin
-```
-
-8. 不斷按「確定」
-
----
-
-### 4️⃣ 重新開啟終端機
-
-關閉 PowerShell / CMD，重新開啟新的終端機
-
----
-
-### 5️⃣ 測試 ffmpeg
-
-```bash
-ffmpeg -version
-```
-
-若顯示版本資訊代表成功
-
----
-
-## ⚙️ Node.js 安裝說明（YouTube 轉錄功能）
-
-👉 若只使用本機音檔，可以跳過此步驟 
-如果要使用 YouTube 網址轉錄，建議安裝 Node.js
-
----
-
-### 1️⃣ 下載 Node.js
-
-https://nodejs.org/
-
-下載並安裝 LTS 版本
-
----
-
-### 2️⃣ 測試 Node.js
-
-```bash
-node -v
-```
-
-若顯示版本號，代表成功
-
----
-
-## ❗❗ 常見問題（🛠 自我排除方法）
-
-### ⚠️ 找不到 ffmpeg
-
-通常是以下原因：
-
-- 沒有加入 PATH
-- PATH 加錯層（必須加到 `bin`）
-- 沒有重新開啟 PowerShell / CMD
-
----
-
-### ⚠️ 點兩下 ffmpeg.exe 閃退
-
-這是正常現象  
-
-ffmpeg 是命令列工具，不是一般安裝程式
-
----
-
-### ⚠️ 找不到 node
-
-請確認：
-
-- Node.js 已安裝
-- 已重新開啟終端機
-- Node.js 已加入 PATH
-
----
-
-### ⚠️ 第一次使用很慢
-
-第一次使用 Whisper 會下載模型  
-請保持網路連線並等待完成
-
----
-
-### ⚠️ YouTube 轉錄失敗
-
-```bash
-node -v
-```
-
-若沒有顯示版本資訊，請先安裝 Node.js  
-如果只使用本機音檔，可以忽略 Node.js
-
----
-
-## 👨‍💻 作者
-
-⭐ 如果這個工具對你有幫助，歡迎給個 Star
-
-GitHub: https://github.com/dw5000tw-33
-
-## ❤️ 支持開發者
-
-如果這個工具對你有幫助，歡迎自由支持後續開發與維護 🙏
-
-👉 [透過綠界支持 33 Works](https://p.ecpay.com.tw/304E8B5)
-
-支持完全自願，不影響工具的免費使用。
+本專案採 MIT License。第三方套件與模型仍依各自授權條款使用。
