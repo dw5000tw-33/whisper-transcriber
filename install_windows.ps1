@@ -96,6 +96,10 @@ try {
             $wingetLinks = Join-Path $env:LOCALAPPDATA "Microsoft\WinGet\Links"
             if (Test-Path -LiteralPath (Join-Path $wingetLinks "ffmpeg.exe")) {
                 $env:Path = "$wingetLinks;$env:Path"
+                $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+                if (($userPath -split ";") -notcontains $wingetLinks) {
+                    [Environment]::SetEnvironmentVariable("Path", "$userPath;$wingetLinks", "User")
+                }
             }
         }
         if (-not (Get-Command ffmpeg.exe -ErrorAction SilentlyContinue)) {
@@ -139,9 +143,6 @@ try {
     }
 
     & (Join-Path $ProjectPath "create_shortcut.ps1") -ProjectPath $ProjectPath
-    if ($LASTEXITCODE -ne 0) {
-        throw "Could not create the desktop shortcut."
-    }
 
     Write-Host "Setup is complete. Opening the Whisper panel."
     Start-Process -FilePath (Join-Path $ProjectPath "START_WHISPER.cmd") -WorkingDirectory $ProjectPath
