@@ -13,23 +13,21 @@ DefaultDirName={localappdata}\Programs\33Works\WhisperTranscriber
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 ArchitecturesInstallIn64BitMode=x64
-OutputDir=dist
+SourceDir=..
+OutputDir=windows-installer\dist
 OutputBaseFilename=33Works-Whisper-Setup
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
 UninstallDisplayName={#MyAppName}
-UninstallDisplayIcon={app}\app.py
 SetupLogging=yes
 
 [Languages]
-Name: "chinesetrad"; MessagesFile: "compiler:Default.isl"
+Name: "chinesetrad"; MessagesFile: "compiler:Languages\ChineseTraditional.isl"
 
 [Files]
-Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: ".git\*,.venv\*,venv\*,build\*,dist\*,__pycache__\*,*.pyc"
+Source: "*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: ".git\*,.github\*,.venv\*,venv\*,build\*,dist\*,windows-installer\*,__pycache__\*,*.pyc"
 
-[Icons]
-Name: "{autoprograms}\33 Works\Whisper 語音轉文字 安裝"; Filename: "{app}\install_windows.cmd"; WorkingDir: "{app}"
 
 [Run]
 Filename: "{app}\install_windows.cmd"; Description: "安裝執行環境並建立桌面捷徑"; Flags: postinstall waituntilterminated skipifsilent
