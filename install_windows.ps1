@@ -137,11 +137,11 @@ try {
     }
 
     Write-Host "Installing Python packages. This can take several minutes."
-    & $venvPython -m pip install --upgrade pip
+    & $venvPython -m pip install --no-cache-dir --upgrade pip
     if ($LASTEXITCODE -ne 0) {
         throw "Could not update pip. Check the Internet connection and try again."
     }
-    & $venvPython -m pip install -r (Join-Path $ProjectPath "requirements.txt")
+    & $venvPython -m pip install --no-cache-dir -r (Join-Path $ProjectPath "requirements.txt")
     if ($LASTEXITCODE -ne 0) {
         throw "Python package installation failed. Check the Internet connection and try again."
     }
