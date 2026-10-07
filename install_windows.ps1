@@ -107,7 +107,7 @@ appDir = "__APP_DIR__"
 sh.CurrentDirectory = appDir
 sh.Run Chr(34) & appDir & "\.venv\Scripts\pythonw.exe" & Chr(34) & " " & Chr(34) & appDir & "\app.py" & Chr(34), 0, False
 '@
-    Set-Content -Path $vbsPath -Value ($vbsContent.Replace("__APP_DIR__", $appDirForVbs)) -Encoding Ascii
+    Set-Content -Path $vbsPath -Value ($vbsContent.Replace("__APP_DIR__", $appDirForVbs)) -Encoding Unicode
     $shortcut.TargetPath = Join-Path $env:SystemRoot "System32\wscript.exe"
     $shortcut.Arguments = '"' + $vbsPath + '"'
     $shortcut.WorkingDirectory = $appDir
