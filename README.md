@@ -108,6 +108,14 @@ py -3.11 -m venv .venv
 - `create_shortcut.ps1`：建立桌面與開始功能表捷徑
 - `requirements.txt`：Python 套件清單
 
+## 授權狀態與未來版本規劃
+
+> **授權公告（2026-10-08）**：目前已公開的 Whisper Transcriber 原始碼採用本儲存庫既有的 [MIT License](./LICENSE)。依該授權合法取得的版本，仍可按 MIT 條款使用、修改、散布及商業使用；本公告**不追溯撤銷**既有 MIT 授權。
+>
+> 33 Works 規劃對**未來另行發布、且確認擁有完整授權權利的原創部分**，改採「個人非商業用途免費；商業用途、修改、再散布或販售須另行取得授權」的專有條款。**新條款尚未生效**；正式適用範圍、起始版本及生效日期，將於完成第三方程式碼與依賴授權盤點後另行公告。
+>
+> OpenAI Whisper、CustomTkinter、yt-dlp 等第三方元件仍適用各自的授權，33 Works 的未來條款不限制這些第三方作品原本授予的權利。詳細說明見 [授權變更紀錄](./LICENSE_CHANGELOG.md)。
+
 ## 作者與支持
 
 GitHub：[dw5000tw-33](https://github.com/dw5000tw-33)
